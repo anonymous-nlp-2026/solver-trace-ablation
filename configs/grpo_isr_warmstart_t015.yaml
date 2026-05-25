@@ -1,0 +1,17 @@
+model_path: /root/autodl-tmp/outputs/exec_retrain_v3_s43/checkpoint-200
+data_path: data/proofwriter_fol_100.jsonl
+reward_mode: isr_gated
+isr_threshold: 0.15
+min_components: 2
+warmup_steps: 0
+num_steps: 300
+per_device_batch_size: 1
+gradient_accumulation_steps: 4
+num_generations: 8
+max_completion_length: 512
+learning_rate: 1.0e-6
+solver: prover9
+gradient_checkpointing: true
+save_total_limit: 1
+save_steps: 50
+no_wandb: true

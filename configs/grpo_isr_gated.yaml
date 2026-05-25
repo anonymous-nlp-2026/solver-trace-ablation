@@ -1,0 +1,17 @@
+model_path: /root/autodl-tmp/models/Qwen3-4B
+data_path: data/train_500_seed42.jsonl
+reward_mode: isr_gated
+output_dir: /root/autodl-tmp/outputs/isr_gated_grpo
+num_steps: 500
+per_device_batch_size: 1
+gradient_accumulation_steps: 4
+num_generations: 8
+max_completion_length: 512
+learning_rate: 1.0e-6
+isr_threshold: 0.3
+min_components: 2
+seed: 42
+solver: prover9
+wandb_project: solver-trace-ablation
+wandb_run: isr_gated
+no_wandb: false

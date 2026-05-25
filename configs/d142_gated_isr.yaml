@@ -1,0 +1,14 @@
+model_path: /root/autodl-tmp/models/Qwen3-4B
+data_path: data/train_500_seed42.jsonl
+reward_mode: additive_bonus_gated
+output_dir: /root/autodl-tmp/d142_gated_isr_s52
+num_steps: 500
+per_device_batch_size: 2
+gradient_accumulation_steps: 4
+num_generations: 4
+max_completion_length: 512
+learning_rate: 1.0e-6
+beta: 0.1
+seed: 52
+solver: prover9
+no_wandb: true

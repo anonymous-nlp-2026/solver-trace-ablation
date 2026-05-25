@@ -1,0 +1,14 @@
+model_path: /root/autodl-tmp/models/Qwen3-4B
+data_path: data/proofwriter_fol_100.jsonl
+reward_mode: execution_only
+num_steps: 500
+per_device_batch_size: 2
+gradient_accumulation_steps: 4
+num_generations: 8
+max_completion_length: 512
+learning_rate: 1.0e-6
+save_steps: 50
+save_total_limit: 3
+gradient_checkpointing: true
+no_wandb: true
+solver: prover9

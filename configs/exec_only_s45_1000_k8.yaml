@@ -1,0 +1,13 @@
+model_path: /root/autodl-tmp/models/Qwen3-4B
+data_path: data/train_500_seed42.jsonl
+reward_mode: execution_only
+output_dir: /root/autodl-tmp/outputs/exec_only_s45_1000_k8
+num_steps: 1000
+per_device_batch_size: 2
+gradient_accumulation_steps: 4
+num_generations: 8
+max_completion_length: 512
+learning_rate: 1.0e-6
+seed: 45
+solver: prover9
+save_total_limit: 1

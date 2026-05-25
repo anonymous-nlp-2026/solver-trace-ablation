@@ -1,0 +1,16 @@
+model_path: /root/autodl-tmp/models/Qwen3-4B
+data_path: data/train_500_seed42.jsonl
+reward_mode: additive_random
+output_dir: /root/autodl-tmp/outputs/plan017_additive_random_b01_s42
+num_steps: 500
+per_device_batch_size: 4
+gradient_accumulation_steps: 2
+num_generations: 4
+max_completion_length: 512
+learning_rate: 1.0e-6
+beta: 0.1
+seed: 42
+solver: prover9
+wandb_project: solver-trace-ablation
+wandb_run: plan017_additive_random_b01
+no_wandb: true
