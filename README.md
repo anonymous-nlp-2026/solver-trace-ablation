@@ -1,16 +1,23 @@
 # Solver Trace Ablation (STA)
 
-Code and data for the paper *"Solver Trace Ablation Reveals Structural Degeneration Behind Execution-Verified Reasoning"*.
+Code and data for the paper *"Observe but Don't Optimize: Structural Rewards Trigger Goodhart Effects in Neurosymbolic Reasoning"*.
 
 ## Overview
 
-STA applies leave-one-out ablation to GRPO-trained formalizations, testing whether each component is necessary for proof success. The resulting **Intensional Structural Reward (ISR)** reveals that prove-rate gains under execution-only reward conceal a compositional shift toward hacking modes.
+Neurosymbolic reasoning pipelines evaluate formalizations by execution alone, treating all successful proofs as equal. This single-criterion reward conflates genuine derivation with structural shortcuts: embedding the conclusion among the premises proves just as reliably, and RL optimizers exploit the indifference.
+
+STA applies leave-one-out (LOO) ablation to GRPO-trained formalizations, testing whether each component is necessary for proof success. The resulting **Intensional Structural Reward (ISR)** reveals that prove-rate gains conceal a compositional shift toward hacking modes — but ISR occupies a paradoxical position: the same LOO structure that makes it informative also makes it gameable. When repurposed as a training reward, the model learns to game the diagnostic rather than the task (Goodhart effect).
+
+Key findings:
+- **Diagnostic value**: ISR reliably detects structural degeneration invisible to execution-based evaluation
+- **Goodhart effect**: ISR-as-reward shifts hacking mode composition (CE → TS) without reducing aggregate hacking
+- **Seed dependence**: 3 of 5 seeds converge to gaming; 2 retain genuine reasoning
+- **Cross-domain**: The diagnostic–optimization asymmetry persists across logic types (FOL, Prolog) and datasets (FOLIO, ProofFOL)
 
 ## Setup
 
 ```bash
 pip install torch transformers datasets accelerate trl wandb
-pip install z3-solver
 ```
 
 For Prolog experiments, install [SWI-Prolog](https://www.swi-prolog.org/) and the `pyswip` package:
@@ -23,7 +30,7 @@ pip install pyswip
 ```
 src/
   sta/          # STA ablation and ISR computation
-  solvers/      # Z3, Prover9, SWI-Prolog solver backends
+  solvers/      # Prover9, SWI-Prolog solver backends
 scripts/
   train_grpo.py       # GRPO training with configurable reward modes
   train_sft.py        # SFT baseline training
@@ -35,6 +42,18 @@ configs/              # YAML configs for all experimental conditions
 data/                 # FOLIO and ProofFOL datasets (preprocessed)
 analysis/             # Analysis utilities
 ```
+
+### Naming Convention
+
+The codebase uses internal identifiers for hacking modes that differ from the paper terminology:
+
+| Code | Paper | Description |
+|------|-------|-------------|
+| H1   | CE    | Conclusion embedding (conclusion among multiple premises) |
+| H7   | TS    | Tautological shortcut (single premise = conclusion) |
+| H7a  | TSa   | Standard tautology (text-match detectable) |
+| H7b  | TSb   | Obfuscated tautology (evades text matching) |
+| H8   | PG    | Premise-subset gaming |
 
 ## Quick Start
 
@@ -86,7 +105,7 @@ python scripts/classify_h7.py \
 
 ## Configs
 
-The `configs/` directory contains YAML configurations for all experimental conditions reported in the paper, including exec-only, ISR reward (multiple beta values), random reward controls, Prolog variants, and ProofFOL cross-dataset experiments.
+The `configs/` directory contains YAML configurations for all experimental conditions reported in the paper, including exec-only, ISR reward (multiple beta values), random reward controls, shuffled-ISR deconfounding control, Prolog variants, and ProofFOL cross-dataset experiments.
 
 ## License
 
